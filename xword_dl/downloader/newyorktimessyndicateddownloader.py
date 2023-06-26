@@ -60,16 +60,14 @@ class NewYorkTimesSyndicatedDownloader(BaseDownloader):
         
         for y in range(puzzle.height):
             for x in range(puzzle.width):
-                #circled cells
-                if raw_grid[0] == '%':
+                if raw_grid[0] == '%':      #circled cells
                     markup += b'\x80'
+                    raw_grid = raw_grid[1:]
+                elif raw_grid[0] == '^':    #shaded cells
+                    markup += b'\x80'       #treat as circled cells
                     raw_grid = raw_grid[1:]
                 else:
                     markup += b'\x00'
-
-                #shaded cells
-                if raw_grid[0] == '^':
-                    raw_grid = raw_grid[1:]
 
                 if raw_grid[0] == '#' or raw_grid[0] == '.':
                     grid[y][x] = '.'
